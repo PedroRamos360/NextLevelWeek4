@@ -2,40 +2,23 @@ import { useState, useEffect } from 'react';
 import styles from '../styles/components/Countdown.module.css';
 import { CgCheckO } from "react-icons/cg";
 
-let countdownTimeout: NodeJS.Timeout;
+import { useContext } from 'react';
+import { ChallengesContext } from '../contexts/ChallengesContext';
+import { CountdownContext } from '../contexts/CountdownContext';
 
 export default function Countdown() {
-	const [time, setTime] = useState(0.1 * 60);
-	const [isActive, setIsActive] = useState(false);
-	const [hasFinished, setHasFinished] = useState(false);
-
-	const minutes = Math.floor(time / 60);
-	const seconds = time % 60;
+	const {
+		minutes,
+		seconds,
+		hasFinished,
+		isActive,
+		startCountdown,
+		resetCountdown
+	} = useContext(CountdownContext);
 
 	// padStart preenche com '0' no início se o length não for 2
 	const [minuteLeft, minuteRight] = String(minutes).padStart(2, '0').split('');
 	const [secondLeft, secondRight] = String(seconds).padStart(2, '0').split('');
-
-	function startCountDown() {
-		setIsActive(true);
-	}
-
-	function resetCountDown() {
-		clearTimeout(countdownTimeout);
-		setIsActive(false);
-		setTime(0.1 * 60);
-	}
-
-	useEffect(() => {
-		if (isActive && time > 0) {
-			countdownTimeout = setTimeout(() => {
-				setTime(time - 1);
-			}, 1000);
-		} else if (isActive && time == 0) {
-			setHasFinished(true);
-			setIsActive(false);
-		}
-	}, [isActive, time]);
 
 	return (
 		<div>
@@ -65,7 +48,7 @@ export default function Countdown() {
 						<button
 							type="button"
 							className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
-							onClick={resetCountDown}
+							onClick={resetCountdown}
 						>
 							Abandonar ciclo
 						</button>
@@ -73,7 +56,7 @@ export default function Countdown() {
 						<button
 							type="button"
 							className={styles.countdownButton}
-							onClick={startCountDown}
+							onClick={startCountdown}
 						>
 							Iniciar ciclo
 						</button>
