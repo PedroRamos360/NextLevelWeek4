@@ -51,14 +51,13 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 				setTime(time - 1);
 			}, 1000);
 		} else if (isActive && time == 0 && restTime == false) {
-			console.log('trabalhando...');
 			setHasFinished(true);
 			setIsActive(false);
 			startNewChallenge();
 			setRestTime(true);
 			setTime(5 * 60);
 		} else if (isActive && time == 0 && restTime == true) {
-			console.log('descanso...');
+			new Audio('/notification.mp3').play();
 			setHasFinished(true);
 			setRestTime(false);
 			resetCountdown();
