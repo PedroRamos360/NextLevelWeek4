@@ -8,6 +8,7 @@ interface CountdownContextData {
 	isActive: boolean;
 	startCountdown: () => void;
 	resetCountdown: () => void;
+	startRest: () => void;
 }
 
 interface CountdownProviderProps {
@@ -19,11 +20,12 @@ export const CountdownContext = createContext({} as CountdownContextData);
 let countdownTimeout: NodeJS.Timeout;
 
 export function CountdownProvider({children} : CountdownProviderProps) {
-	const { startNewChallenge } = useContext(ChallengesContext);
+	const { startNewChallenge, resetChallenge } = useContext(ChallengesContext);
 
 	const [time, setTime] = useState(25 * 60);
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
+	const [restTime, setRestTime] = useState(false);
 
 	const minutes = Math.floor(time / 60);
 	const seconds = time % 60;
@@ -39,15 +41,28 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 		setHasFinished(false);
 	}
 
+	function startRest() {
+		setIsActive(true);
+	}
+
 	useEffect(() => {
 		if (isActive && time > 0) {
 			countdownTimeout = setTimeout(() => {
 				setTime(time - 1);
 			}, 1000);
-		} else if (isActive && time == 0) {
+		} else if (isActive && time == 0 && restTime == false) {
+			console.log('trabalhando...');
 			setHasFinished(true);
 			setIsActive(false);
 			startNewChallenge();
+			setRestTime(true);
+			setTime(5 * 60);
+		} else if (isActive && time == 0 && restTime == true) {
+			console.log('descanso...');
+			setHasFinished(true);
+			setRestTime(false);
+			resetCountdown();
+			resetChallenge();
 		}
 	}, [isActive, time]);
 	return (
@@ -58,6 +73,7 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 			isActive,
 			startCountdown,
 			resetCountdown,
+			startRest
 		}}>
 			{children}
 		</CountdownContext.Provider>

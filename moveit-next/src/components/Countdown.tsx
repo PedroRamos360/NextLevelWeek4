@@ -13,7 +13,8 @@ export default function Countdown() {
 		hasFinished,
 		isActive,
 		startCountdown,
-		resetCountdown
+		resetCountdown,
+		startRest
 	} = useContext(CountdownContext);
 
 	// padStart preenche com '0' no início se o length não for 2
@@ -36,11 +37,12 @@ export default function Countdown() {
 
 			{ hasFinished ? (
 				<button
-					disabled
-					className={styles.countdownButton}
+					type="button"
+					className={`${styles.restButton}`}
+					onClick={startRest}
 				>
-					Ciclo encerrado
-					<CgCheckO color='#4cd62b' />
+					Iniciar descanso
+					<CgCheckO color='#4cd62b'/>
 				</button>
 			) : (
 				<>
@@ -50,7 +52,7 @@ export default function Countdown() {
 							className={`${styles.countdownButton} ${styles.countdownButtonActive}`}
 							onClick={resetCountdown}
 						>
-							Abandonar ciclo
+							Desistir
 						</button>
 					) : (
 						<button
@@ -58,7 +60,7 @@ export default function Countdown() {
 							className={styles.countdownButton}
 							onClick={startCountdown}
 						>
-							Iniciar ciclo
+							Iniciar trabalho
 						</button>
 					)}
 				</>

@@ -1,19 +1,47 @@
-.container {
+.homeContainer {
+	width: 100vw;
 	height: 100vh;
-	max-width: 992px;
-	margin: 0 auto;
-	padding: 2.5rem 2rem;
-
 	display: flex;
+	align-items: center;
+	justify-content: center;
 	flex-direction: column;
 }
 
-.container section {
-	flex: 1;
-
-	display: grid;
-	margin-top: 2rem;
-	grid-template-columns: 1fr 1fr;
-	gap: 6.25rem;
-	align-content: center;
+.homeContainer h1 {
+	margin-bottom: 1rem;
 }
+
+.homeContainer input {
+	height: 5rem;
+	width: 30rem;
+
+	border: none;
+	border-radius: 0.5rem 0 0 0.5rem;
+
+	padding: 1rem;
+
+	font-size: 1.5rem;
+
+	color: var(--text);
+}
+
+.homeContainer div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.homeContainer button {
+	height: 5rem;
+	width: 5rem;
+
+	cursor: pointer;
+
+	background: var(--blue);
+
+	border: none;
+	border-radius: 0 0.5rem 0.5rem 0;
+
+	font-size: 0;
+}
+
