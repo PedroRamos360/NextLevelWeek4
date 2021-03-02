@@ -1,7 +1,8 @@
 import styles from '../styles/pages/Home.module.css';
 import { TiChevronRight } from "react-icons/ti";
 import Link from 'next/link'
-import { createContext, ReactNode, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useEffect, useState } from "react";
+import { Head } from 'next/document';
 
 let user = '';
 
@@ -14,6 +15,9 @@ export default function Home() {
 
 	return (
 		<HomeProvider>
+			<Head>
+				<title>Início | move.it</title>
+			</Head>
 			<div className={styles.homeContainer}>
 				<h1>Bem vindo ao Move it!</h1>
 				<div>

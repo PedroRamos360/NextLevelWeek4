@@ -30,7 +30,7 @@ export default function AppPage(props : AppProps) {
 		>
 			<div className={styles.container}>
 				<Head>
-					<title>Início | move.it</title>
+					<title>Aplicação | move.it</title>
 				</Head>
 				<ExperienceBar />
 
