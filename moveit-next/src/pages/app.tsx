@@ -12,7 +12,6 @@ import styles from '../styles/pages/App.module.css';
 import ChallengeBox from "../components/ChallengeBox";
 import { CountdownProvider } from "../contexts/CountdownContext";
 import { ChallengesProvider } from "../contexts/ChallengesContext";
-import { HomeProvider } from ".";
 
 interface AppProps {
 	level: number;
@@ -37,9 +36,7 @@ export default function AppPage(props : AppProps) {
 				<CountdownProvider>
 					<section>
 						<div>
-							<HomeProvider>
-								<Profile />
-							</HomeProvider>
+							<Profile />
 							<CompletedChallenges />
 
 							<Countdown />

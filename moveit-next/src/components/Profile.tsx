@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
 import { ChallengesContext } from '../contexts/ChallengesContext';
-import { HomeContext } from '../pages';
+import Cookies from 'js-cookie';
 import styles from '../styles/components/Profile.module.css';
 
 export default function Profile() {
 	const { level } = useContext(ChallengesContext);
-	const { user } = useContext(HomeContext);
 	const [userExists, setUserExists] = useState(true);
+	const [userImg, setUserImg] = useState('');
+
+	const user = Cookies.get('user');
+
 
 	useEffect(() => {
 		fetch(`https://api.github.com/users/${user}`)
@@ -16,6 +19,8 @@ export default function Profile() {
 					setUserExists(false);
 				} else {
 					setUserExists(true);
+					console.log(data.avatar_url);
+					setUserImg(data.avatar_url);
 				}
 			});
 	});
@@ -23,7 +28,7 @@ export default function Profile() {
 	return (
 		<div className={styles.profileContainer}>
 			{ userExists
-				? <img src={`https://github.com/${user}.png`} alt={user} />
+				? <img src={userImg} alt={user} />
 				: <img src={'anonymous.jpg'} alt={user}/>
 			}
 

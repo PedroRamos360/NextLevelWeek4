@@ -45,3 +45,9 @@
 	font-size: 0;
 }
 
+.homeContainer a {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	text-decoration: underline;
+}
+
