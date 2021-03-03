@@ -2,7 +2,7 @@ import styles from '../styles/pages/Home.module.css';
 import { TiChevronRight } from "react-icons/ti";
 import Link from 'next/link'
 import React, { createContext, ReactNode, useEffect, useState } from "react";
-import { Head } from 'next/document';
+import Head from 'next/head';
 
 let user = '';
 
