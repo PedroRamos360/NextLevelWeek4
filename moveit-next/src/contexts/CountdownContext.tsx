@@ -44,6 +44,7 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 		setTime(25*60);
 		setInitialTime(25*60);
 		setHasFinished(false);
+		setStartTime(0);
 	}
 
 	function startRest() {
@@ -83,6 +84,9 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 			setStartTime(0);
 		} else if (isActive && time <= 0 && restTime == true) {
 			new Audio('/notification.mp3').play();
+			new Notification('Seu descanso acabou', {
+				body: 'Hora de voltar ao trabalho!'
+			});
 			setHasFinished(true);
 			setRestTime(false);
 			resetCountdown();
