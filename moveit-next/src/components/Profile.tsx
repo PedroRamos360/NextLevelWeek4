@@ -12,24 +12,27 @@ export default function Profile() {
 
 
 	useEffect(() => {
-		fetch(`https://api.github.com/users/${user}`)
+		if (user) {
+			fetch(`https://api.github.com/users/${user}`)
 			.then(res => res.json())
 			.then(data => {
 				if (data.message == "Not Found") {
 					setUserExists(false);
 				} else {
 					setUserExists(true);
-					console.log(data.avatar_url);
 					setUserImg(data.avatar_url);
 				}
 			});
-	});
+		} else {
+			setUserImg('/anonymous.jpg');
+		}
+	}, []);
 
 	return (
 		<div className={styles.profileContainer}>
 			{ userExists
 				? <img src={userImg} alt={user} />
-				: <img src={'anonymous.jpg'} alt={user}/>
+				: <img src={userImg} alt={'anonymous'}/>
 			}
 
 			<div>

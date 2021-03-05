@@ -26,6 +26,8 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 	const [restTime, setRestTime] = useState(false);
+	const [startTime, setStartTime] = useState(0);
+	const [fakeTime, setFakeTime] = useState(25 * 60);
 
 	const minutes = Math.floor(time / 60);
 	const seconds = time % 60;
@@ -45,10 +47,27 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 		setIsActive(true);
 	}
 
+	function setStart(miliseconds) {
+		if (startTime == 0) {
+			setStartTime(miliseconds);
+		}
+	}
+
 	useEffect(() => {
+		let secondsPassed = 0;
+		if (isActive) {
+			setStart(new Date().getTime());
+			if (startTime == 0) {
+				secondsPassed = Math.floor((new Date().getTime() - new Date().getTime()+1000)/1000);
+			} else {
+				secondsPassed = Math.floor((new Date().getTime() - startTime)/1000);
+			}
+		}
+
 		if (isActive && time > 0) {
 			countdownTimeout = setTimeout(() => {
-				setTime(time - 1);
+				setFakeTime(fakeTime - 1);
+				setTime(25*60 - secondsPassed);
 			}, 1000);
 		} else if (isActive && time == 0 && restTime == false) {
 			setHasFinished(true);
@@ -63,7 +82,7 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 			resetCountdown();
 			resetChallenge();
 		}
-	}, [isActive, time]);
+	}, [isActive, fakeTime]);
 	return (
 		<CountdownContext.Provider value={{
 			minutes,
