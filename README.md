@@ -15,7 +15,7 @@ Additional features (compared to normal project from Rocketseat):
 of just a challenge like in the original project;
 - Fixed a bug in the bar that would turn it all green the first time the app was open.
 
-Acess link: https://moveit-nlw4-pedroramos360.vercel.app/
+Acess link: https://moveit-pedroramos360.vercel.app/
 
 ![2021-03-02](https://user-images.githubusercontent.com/53490820/109724278-1f8f7580-7b8e-11eb-8198-bb85d6421ddd.png)
 ![2021-03-02 (1)](https://user-images.githubusercontent.com/53490820/109724467-62514d80-7b8e-11eb-98bc-55e299a14aa0.png)
