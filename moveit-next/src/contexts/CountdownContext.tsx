@@ -22,12 +22,13 @@ let countdownTimeout: NodeJS.Timeout;
 export function CountdownProvider({children} : CountdownProviderProps) {
 	const { startNewChallenge, resetChallenge } = useContext(ChallengesContext);
 
-	const [time, setTime] = useState(25 * 60);
+	const [time, setTime] = useState(25*60);
 	const [isActive, setIsActive] = useState(false);
 	const [hasFinished, setHasFinished] = useState(false);
 	const [restTime, setRestTime] = useState(false);
 	const [startTime, setStartTime] = useState(0);
-	const [fakeTime, setFakeTime] = useState(25 * 60);
+	const [fakeTime, setFakeTime] = useState(25*60);
+	const [initialtime, setInitialTime] = useState(25*60);
 
 	const minutes = Math.floor(time / 60);
 	const seconds = time % 60;
@@ -39,7 +40,9 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 	function resetCountdown() {
 		clearTimeout(countdownTimeout);
 		setIsActive(false);
-		setTime(25 * 60);
+		setFakeTime(25*60);
+		setTime(25*60);
+		setInitialTime(25*60);
 		setHasFinished(false);
 	}
 
@@ -67,20 +70,25 @@ export function CountdownProvider({children} : CountdownProviderProps) {
 		if (isActive && time > 0) {
 			countdownTimeout = setTimeout(() => {
 				setFakeTime(fakeTime - 1);
-				setTime(25*60 - secondsPassed);
+				setTime(initialtime - secondsPassed);
 			}, 1000);
-		} else if (isActive && time == 0 && restTime == false) {
+		} else if (isActive && time <= 0 && restTime == false) {
 			setHasFinished(true);
 			setIsActive(false);
 			startNewChallenge();
 			setRestTime(true);
-			setTime(5 * 60);
-		} else if (isActive && time == 0 && restTime == true) {
+			setFakeTime(5*60);
+			setTime(5*60);
+			setInitialTime(5*60);
+			setStartTime(0);
+		} else if (isActive && time <= 0 && restTime == true) {
 			new Audio('/notification.mp3').play();
 			setHasFinished(true);
 			setRestTime(false);
 			resetCountdown();
 			resetChallenge();
+			setStartTime(0);
+
 		}
 	}, [isActive, fakeTime]);
 	return (
