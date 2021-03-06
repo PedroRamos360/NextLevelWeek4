@@ -14,18 +14,18 @@ import { CountdownProvider } from "../contexts/CountdownContext";
 import { ChallengesProvider } from "../contexts/ChallengesContext";
 
 interface AppProps {
-	level: number;
-	currentExperience: number;
-	challengesCompleted: number;
+	levelMoveit: number;
+	currentExperienceMoveit: number;
+	challengesCompletedMoveit: number;
 }
 
 
 export default function AppPage(props : AppProps) {
 	return (
 		<ChallengesProvider
-			level={props.level}
-			currentExperience={props.currentExperience}
-			challengesCompleted={props.challengesCompleted}
+			level={props.levelMoveit}
+			currentExperience={props.currentExperienceMoveit}
+			challengesCompleted={props.challengesCompletedMoveit}
 		>
 			<div className={styles.container}>
 				<Head>
@@ -56,13 +56,13 @@ export default function AppPage(props : AppProps) {
 // receber as informações prontas
 // Tudo que está secrito dentro dessa função roda dentro do server node do next.js
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
-	const { level, currentExperience, challengesCompleted } = ctx.req.cookies;
+	const { levelMoveit, currentExperienceMoveit, challengesCompletedMoveit } = ctx.req.cookies;
 
 	return {
 		props: {
-			level: Number(level),
-			currentExperience: Number(currentExperience),
-			challengesCompleted: Number(challengesCompleted)
+			levelMoveit: Number(levelMoveit),
+			currentExperienceMoveit: Number(currentExperienceMoveit),
+			challengesCompletedMoveit: Number(challengesCompletedMoveit)
 		}
 	}
 }

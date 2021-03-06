@@ -8,7 +8,7 @@ export default function Profile() {
 	const [userExists, setUserExists] = useState(true);
 	const [userImg, setUserImg] = useState('');
 
-	const user = Cookies.get('user');
+	const user = Cookies.get('userMoveit');
 
 
 	useEffect(() => {

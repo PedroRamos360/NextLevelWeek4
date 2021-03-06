@@ -28,7 +28,7 @@ export default function Home() {
 					onChange={(e) => {
 						setUser(e.target.value);
 						changeUser(e.target.value);
-						Cookies.set('user', e.target.value);
+						Cookies.set('userMoveit', e.target.value);
 					}}
 				/>
 					{user ? (
@@ -46,7 +46,7 @@ export default function Home() {
 					)}
 			</div>
 			<Link href='/app'>
-				<a onClick={() => {Cookies.set('user', '')}}>Ou entre anonimamente</a>
+				<a onClick={() => {Cookies.set('userMoveit', '')}}>Ou entre anonimamente</a>
 			</Link>
 		</div>
 		</>
