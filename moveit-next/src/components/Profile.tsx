@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import styles from '../styles/components/Profile.module.css';
 
 export default function Profile() {
-	const { level } = useContext(ChallengesContext);
+	const [level, setLevel] = useState(1);
 	const [userExists, setUserExists] = useState(true);
 	const [userImg, setUserImg] = useState('');
 
@@ -22,6 +22,12 @@ export default function Profile() {
 					setUserExists(true);
 					setUserImg(data.avatar_url);
 				}
+			});
+			fetch(`https://pedro-moveit-backend.herokuapp.com/get-user/${user}`)
+			.then(res => res.json())
+			.then(data => {
+				console.log(data);
+				setLevel(data.level);
 			});
 		} else {
 			setUserImg('/anonymous.jpg');

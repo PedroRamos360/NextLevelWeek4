@@ -14,6 +14,33 @@ function changeUser(newUser) {
 export default function Home() {
 	const [user, setUser] = useState('');
 
+	function handleUserSubmit() {
+		const data = {
+			'username': user,
+		}
+
+		let userExists = false;
+		fetch(`https://pedro-moveit-backend.herokuapp.com/get-user/${user}`)
+		.then(res => res.json())
+		.then(data => {
+			console.log(data.Error == undefined);
+			if (data.Error == undefined) {
+				userExists = true;
+			}
+		})
+		if (!userExists) {
+			fetch(`https://pedro-moveit-backend.herokuapp.com/create-user`, {
+				method: 'post',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data)
+			}).then(response => {
+				return response.json();
+			})
+		}
+	}
+
 	return (
 		<>
 		<Head>
@@ -32,14 +59,16 @@ export default function Home() {
 					}}
 				/>
 					{user ? (
-						<Link href='/app'>
-							<button>
-								<TiChevronRight color='white' size={40}/>
-							</button>
-						</Link>
+						<div onClick={handleUserSubmit}>
+							<Link href='/app' >
+								<button>
+									<TiChevronRight color='white' size={40}/>
+								</button>
+							</Link>
+						</div>
 					) : (
 						<Link href='/'>
-							<button>
+							<button disabled>
 								<TiChevronRight color='white' size={40}/>
 							</button>
 						</Link>
