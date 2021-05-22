@@ -23,7 +23,6 @@ export default function Home() {
 		fetch(`https://pedro-moveit-backend.herokuapp.com/get-user/${user}`)
 		.then(res => res.json())
 		.then(data => {
-			console.log(data.Error == undefined);
 			if (data.Error == undefined) {
 				userExists = true;
 			}

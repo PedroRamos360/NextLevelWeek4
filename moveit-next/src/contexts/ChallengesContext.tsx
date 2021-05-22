@@ -32,6 +32,7 @@ interface ChallengesProviderProps {
 export const ChallengesContext = createContext({} as ChallengesContextData);
 
 export function ChallengesProvider({ children, ...rest } : ChallengesProviderProps) {
+	const user = Cookies.get('userMoveit');
 	const [level, setLevel] = useState(rest.level ?? 1);
 	const [currentExperience, setCurrentExperience] = useState(rest.currentExperience ?? 0);
 	const [challengesCompleted, setChallengesCompleted] = useState(rest.challengesCompleted ?? 0);
@@ -46,6 +47,14 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 	}, []);
 
 	useEffect(() => {
+		fetch(`https://pedro-moveit-backend.herokuapp.com/get-user/${user}`)
+		.then(res => res.json())
+		.then(data => {
+			setLevel(data.level);
+			setCurrentExperience(data.xp);
+			setChallengesCompleted(data.completed_challenges);
+		});
+
 		Cookies.set('levelMoveit', level.toString());
 		Cookies.set('currentExperienceMoveit', currentExperience.toString());
 		Cookies.set('challengesCompletedMoveit', challengesCompleted.toString());
@@ -54,6 +63,21 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 	function levelUp() {
 		setLevel(level + 1);
 		setIsLevelUpModalOpen(true);
+		const data = {
+			"username": user,
+			"level": level + 1,
+			"xp": currentExperience,
+			"completed_challenges": challengesCompleted
+	  }
+		fetch(`https://pedro-moveit-backend.herokuapp.com/update-user`, {
+			method: 'patch',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data)
+		}).then(response => {
+			return response.json();
+		})
 	}
 
 	function closeLevelUpModal() {
@@ -96,6 +120,21 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 		setCurrentExperience(finalExperience);
 		setActiveChallenge(null);
 		setChallengesCompleted(challengesCompleted + 1);
+		const data = {
+			"username": user,
+			"level": level,
+			"xp": finalExperience,
+			"completed_challenges": challengesCompleted + 1
+	  }
+		fetch(`https://pedro-moveit-backend.herokuapp.com/update-user`, {
+			method: 'patch',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data)
+		}).then(response => {
+			return response.json();
+		})
 	}
 
 	return (

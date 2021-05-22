@@ -37,7 +37,7 @@ export default function Profile() {
 	return (
 		<div className={styles.profileContainer}>
 			{ userExists
-				? <img src={userImg} alt={user} />
+				? <img src={userImg} alt={'foto do usuário'} />
 				: <img src={userImg} alt={'anonymous'}/>
 			}
 
