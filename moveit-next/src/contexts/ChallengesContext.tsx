@@ -77,7 +77,7 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 			body: JSON.stringify(data)
 		}).then(response => {
 			return response.json();
-		})
+		});
 	}
 
 	function closeLevelUpModal() {
