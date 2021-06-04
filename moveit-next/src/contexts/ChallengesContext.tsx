@@ -63,21 +63,6 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 	function levelUp() {
 		setLevel(level + 1);
 		setIsLevelUpModalOpen(true);
-		const data = {
-			"username": user,
-			"level": level + 1,
-			"xp": currentExperience,
-			"completed_challenges": challengesCompleted
-	  }
-		fetch(`https://pedro-moveit-backend.herokuapp.com/update-user`, {
-			method: 'patch',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(data)
-		}).then(response => {
-			return response.json();
-		});
 	}
 
 	function closeLevelUpModal() {
@@ -109,25 +94,24 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 		}
 
 		const { amount } = activeChallenge;
-
 		let finalExperience = currentExperience + amount;
+		let finalLevel = level;
 
 		if (finalExperience >= experienceToNextLevel) {
 			finalExperience = finalExperience - experienceToNextLevel;
+			finalLevel += 1;
 			levelUp();
 		}
 
-		setCurrentExperience(finalExperience);
-		setActiveChallenge(null);
-		setChallengesCompleted(challengesCompleted + 1);
 		const data = {
 			"username": user,
-			"level": level,
+			"level": finalLevel,
 			"xp": finalExperience,
 			"completed_challenges": challengesCompleted + 1
-	  }
+	  	}
+		console.log(data);
 		fetch(`https://pedro-moveit-backend.herokuapp.com/update-user`, {
-			method: 'patch',
+			method: 'PATCH',
 			headers: {
 				'Content-Type': 'application/json',
 			},
@@ -135,6 +119,10 @@ export function ChallengesProvider({ children, ...rest } : ChallengesProviderPro
 		}).then(response => {
 			return response.json();
 		})
+		setCurrentExperience(finalExperience);
+		setActiveChallenge(null);
+		setChallengesCompleted(challengesCompleted + 1);
+		location.reload();
 	}
 
 	return (
